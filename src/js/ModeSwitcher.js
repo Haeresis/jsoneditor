@@ -15,35 +15,35 @@ function ModeSwitcher(container, modes, current, onSwitch) {
   var availableModes = {
     code: {
       'text': 'Code',
-      'title': 'Switch to code highlighter',
+      'title': 'Afficher sous forme de code',
       'click': function () {
-        onSwitch('code')
+        onSwitch('code');
       }
     },
     form: {
-      'text': 'Form',
-      'title': 'Switch to form editor',
+      'text': 'Formulaire',
+      'title': 'Afficher sous forme de formulaire',
       'click': function () {
         onSwitch('form');
       }
     },
     text: {
-      'text': 'Text',
-      'title': 'Switch to plain text editor',
+      'text': 'Texte',
+      'title': 'Afficher en texte brute',
       'click': function () {
         onSwitch('text');
       }
     },
     tree: {
-      'text': 'Tree',
-      'title': 'Switch to tree editor',
+      'text': 'Arborescence',
+      'title': 'Afficher sous une arborescence',
       'click': function () {
         onSwitch('tree');
       }
     },
     view: {
-      'text': 'View',
-      'title': 'Switch to tree view',
+      'text': 'Aperçu',
+      'title': 'Afficher l\'aperçu d\'arborescence',
       'click': function () {
         onSwitch('view');
       }

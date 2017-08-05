@@ -40,7 +40,7 @@ function SearchBox (editor, container) {
   var divInput = document.createElement('div');
   this.dom.input = divInput;
   divInput.className = 'jsoneditor-frame';
-  divInput.title = 'Search fields and values';
+  divInput.title = 'Chercher dans les champs et les valeurs';
   td.appendChild(divInput);
 
   // table to contain the text input and search button
@@ -84,7 +84,7 @@ function SearchBox (editor, container) {
 
   var searchNext = document.createElement('button');
   searchNext.type = 'button';
-  searchNext.title = 'Next result (Enter)';
+  searchNext.title = 'Résultat suivant (Entrer)';
   searchNext.className = 'jsoneditor-next';
   searchNext.onclick = function () {
     searchBox.next();
@@ -95,7 +95,7 @@ function SearchBox (editor, container) {
 
   var searchPrevious = document.createElement('button');
   searchPrevious.type = 'button';
-  searchPrevious.title = 'Previous result (Shift+Enter)';
+  searchPrevious.title = 'Résultat précédent (Shift+Entrer)';
   searchPrevious.className = 'jsoneditor-previous';
   searchPrevious.onclick = function () {
     searchBox.previous();

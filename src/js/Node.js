@@ -1493,7 +1493,7 @@ Node.prototype.getDom = function() {
         domDrag.type = 'button';
         dom.drag = domDrag;
         domDrag.className = 'jsoneditor-dragarea';
-        domDrag.title = 'Drag to move this field (Alt+Shift+Arrows)';
+        domDrag.title = 'Maintenir et déplacer le champ (Alt+Shift+Arrows)';
         tdDrag.appendChild(domDrag);
       }
     }
@@ -1505,7 +1505,7 @@ Node.prototype.getDom = function() {
     menu.type = 'button';
     dom.menu = menu;
     menu.className = 'jsoneditor-contextmenu';
-    menu.title = 'Click to open the actions menu (Ctrl+M)';
+    menu.title = 'Cliquer pour ouvrir le menu contextuel (Ctrl+M)';
     tdMenu.appendChild(dom.menu);
     dom.tr.appendChild(tdMenu);
   }
@@ -3163,16 +3163,16 @@ Node.prototype._hasChilds = function () {
 
 // titles with explanation for the different types
 Node.TYPE_TITLES = {
-  'auto': 'Field type "auto". ' +
-      'The field type is automatically determined from the value ' +
-      'and can be a string, number, boolean, or null.',
-  'object': 'Field type "object". ' +
-      'An object contains an unordered set of key/value pairs.',
-  'array': 'Field type "array". ' +
-      'An array contains an ordered collection of values.',
-  'string': 'Field type "string". ' +
-      'Field type is not determined from the value, ' +
-      'but always returned as string.'
+  'auto': 'Champ de type "auto". ' +
+      'Le type de ce champ est automatiquement déterminé d\'après sa valeur ' +
+      'et peut être des caractères, un nombre, un booléen, ou nul.',
+  'object': 'Champ de type "objet". ' +
+      'Un objet contient des paires non ordonnée de clé/valeur.',
+  'array': 'Champ de type "tableau". ' +
+      'Un tableau contient une collection de valeurs ordonnées.',
+  'string': 'Champ de type "caractères". ' +
+      'Le type du champ n\'est pas déterminé en fonction de sa valeur, ' +
+      'mais est toujours de type chaîne de caractères.'
 };
 
 /**
@@ -3190,7 +3190,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
   if (this.editable.value) {
     items.push({
       text: 'Type',
-      title: 'Change the type of this field',
+      title: 'Changer le type du champ',
       className: 'jsoneditor-type-' + this.type,
       submenu: [
         {
@@ -3203,7 +3203,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
           }
         },
         {
-          text: 'Array',
+          text: 'Tableau',
           className: 'jsoneditor-type-array' +
               (this.type == 'array' ? ' jsoneditor-selected' : ''),
           title: titles.array,
@@ -3212,7 +3212,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
           }
         },
         {
-          text: 'Object',
+          text: 'Objet',
           className: 'jsoneditor-type-object' +
               (this.type == 'object' ? ' jsoneditor-selected' : ''),
           title: titles.object,
@@ -3221,7 +3221,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
           }
         },
         {
-          text: 'String',
+          text: 'Caractères',
           className: 'jsoneditor-type-string' +
               (this.type == 'string' ? ' jsoneditor-selected' : ''),
           title: titles.string,
@@ -3236,25 +3236,25 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
   if (this._hasChilds()) {
     var direction = ((this.sortOrder == 'asc') ? 'desc': 'asc');
     items.push({
-      text: 'Sort',
-      title: 'Sort the childs of this ' + this.type,
+      text: 'Trier',
+      title: 'Trier les enfants par ' + this.type,
       className: 'jsoneditor-sort-' + direction,
       click: function () {
         node.sort(direction);
       },
       submenu: [
         {
-          text: 'Ascending',
+          text: 'Ascendant',
           className: 'jsoneditor-sort-asc',
-          title: 'Sort the childs of this ' + this.type + ' in ascending order',
+          title: 'Trier les enfants par ' + this.type + ' dans un ordre ascendant',
           click: function () {
             node.sort('asc');
           }
         },
         {
-          text: 'Descending',
+          text: 'Descendant',
           className: 'jsoneditor-sort-desc',
-          title: 'Sort the childs of this ' + this.type +' in descending order',
+          title: 'Trier les enfants par ' + this.type +' dans un ordre descendant',
           click: function () {
             node.sort('desc');
           }
@@ -3275,9 +3275,9 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
     var childs = node.parent.childs;
     if (node == childs[childs.length - 1]) {
       items.push({
-        text: 'Append',
-        title: 'Append a new field with type \'auto\' after this field (Ctrl+Shift+Ins)',
-        submenuTitle: 'Select the type of the field to be appended',
+        text: 'Postjouter',
+        title: 'Ajouter un nouveau champ de type \'auto\' après ce champ (Ctrl+Shift+Ins)',
+        submenuTitle: 'Sélectionner le type du champ à ajouter',
         className: 'jsoneditor-append',
         click: function () {
           node._onAppend('', '', 'auto');
@@ -3292,7 +3292,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
             }
           },
           {
-            text: 'Array',
+            text: 'Tableau',
             className: 'jsoneditor-type-array',
             title: titles.array,
             click: function () {
@@ -3300,7 +3300,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
             }
           },
           {
-            text: 'Object',
+            text: 'Objet',
             className: 'jsoneditor-type-object',
             title: titles.object,
             click: function () {
@@ -3308,7 +3308,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
             }
           },
           {
-            text: 'String',
+            text: 'Caractères',
             className: 'jsoneditor-type-string',
             title: titles.string,
             click: function () {
@@ -3321,9 +3321,9 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
 
     // create insert button
     items.push({
-      text: 'Insert',
-      title: 'Insert a new field with type \'auto\' before this field (Ctrl+Ins)',
-      submenuTitle: 'Select the type of the field to be inserted',
+      text: 'Ajouter',
+      title: 'Ajouter un nouveau champ de type \'auto\' avant ce champ (Ctrl+Ins)',
+      submenuTitle: 'Sélectionner le type du champ à ajouter',
       className: 'jsoneditor-insert',
       click: function () {
         node._onInsertBefore('', '', 'auto');
@@ -3338,7 +3338,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
           }
         },
         {
-          text: 'Array',
+          text: 'Tableau',
           className: 'jsoneditor-type-array',
           title: titles.array,
           click: function () {
@@ -3346,7 +3346,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
           }
         },
         {
-          text: 'Object',
+          text: 'Objet',
           className: 'jsoneditor-type-object',
           title: titles.object,
           click: function () {
@@ -3354,7 +3354,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
           }
         },
         {
-          text: 'String',
+          text: 'Caractères',
           className: 'jsoneditor-type-string',
           title: titles.string,
           click: function () {
@@ -3367,8 +3367,8 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
     if (this.editable.field) {
       // create duplicate button
       items.push({
-        text: 'Duplicate',
-        title: 'Duplicate this field (Ctrl+D)',
+        text: 'Dupliquer',
+        title: 'Dupliquer ce champ (Ctrl+D)',
         className: 'jsoneditor-duplicate',
         click: function () {
           Node.onDuplicate(node);
@@ -3377,8 +3377,8 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
 
       // create remove button
       items.push({
-        text: 'Remove',
-        title: 'Remove this field (Ctrl+Del)',
+        text: 'Supprimer',
+        title: 'Supprimer ce champ (Ctrl+Del)',
         className: 'jsoneditor-remove',
         click: function () {
           Node.onRemove(node);
