@@ -373,10 +373,10 @@ Node.prototype.getLevel = function() {
 };
 
 /**
- * Get path of the root node till the current node
+ * Get jsonpath of the current node
  * @return {Node[]} Returns an array with nodes
  */
-Node.prototype.getNodePath = function() {
+Node.prototype.getNodePath = function () {
   var path = this.parent ? this.parent.getNodePath() : [];
   path.push(this);
   return path;
@@ -3175,6 +3175,32 @@ Node.TYPE_TITLES = {
       'mais est toujours de type chaîne de caractères.'
 };
 
+Node.prototype.addTemplates = function (menu, append) {
+    var node = this;
+    var templates = node.editor.options.templates;
+    if (templates == null) return;
+    if (templates.length) {
+        // create a separator
+        menu.push({
+            'type': 'separator'
+        });
+    }
+    var appendData = function (name, data) {
+        node._onAppend(name, data);
+    };
+    var insertData = function (name, data) {
+        node._onInsertBefore(name, data);
+    };
+    templates.forEach(function (template) {
+        menu.push({
+            text: template.text,
+            className: (template.className || 'jsoneditor-type-object'),
+            title: template.title,
+            click: (append ? appendData.bind(this, template.field, template.value) : insertData.bind(this, template.field, template.value))
+        });
+    });
+};
+
 /**
  * Show a contextmenu for this node
  * @param {HTMLElement} anchor   Anchor element to attach the context menu to
@@ -3274,52 +3300,89 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
     // create append button (for last child node only)
     var childs = node.parent.childs;
     if (node == childs[childs.length - 1]) {
-      items.push({
-        text: 'Postjouter',
-        title: 'Ajouter un nouveau champ de type \'auto\' après ce champ (Ctrl+Shift+Ins)',
-        submenuTitle: 'Sélectionner le type du champ à ajouter',
-        className: 'jsoneditor-append',
-        click: function () {
-          node._onAppend('', '', 'auto');
-        },
-        submenu: [
-          {
+        var appendSubmenu = [
+            {
+                text: 'Auto',
+                className: 'jsoneditor-type-auto',
+                title: titles.auto,
+                click: function () {
+                    node._onAppend('', '', 'auto');
+                }
+            },
+            {
+                text: 'Tableau',
+                className: 'jsoneditor-type-array',
+                title: titles.array,
+                click: function () {
+                    node._onAppend('', []);
+                }
+            },
+            {
+                text: 'Objet',
+                className: 'jsoneditor-type-object',
+                title: titles.object,
+                click: function () {
+                    node._onAppend('', {});
+                }
+            },
+            {
+                text: 'Caractères',
+                className: 'jsoneditor-type-string',
+                title: titles.string,
+                click: function () {
+                    node._onAppend('', '', 'string');
+                }
+            }
+        ];
+        node.addTemplates(appendSubmenu, true);
+        items.push({
+            text: 'Postjouter',
+            title: 'Ajouter un nouveau champ de type \'auto\' après ce champ (Ctrl+Shift+Ins)',
+            submenuTitle: 'Sélectionner le type du champ à ajouter',
+            className: 'jsoneditor-append',
+            click: function () {
+                node._onAppend('', '', 'auto');
+            },
+            submenu: appendSubmenu
+        });
+    }
+
+    // create insert button
+    var insertSubmenu = [
+        {
             text: 'Auto',
             className: 'jsoneditor-type-auto',
             title: titles.auto,
             click: function () {
-              node._onAppend('', '', 'auto');
+                node._onInsertBefore('', '', 'auto');
             }
-          },
-          {
+        },
+        {
             text: 'Tableau',
             className: 'jsoneditor-type-array',
             title: titles.array,
             click: function () {
-              node._onAppend('', []);
+                node._onInsertBefore('', []);
             }
-          },
-          {
+        },
+        {
             text: 'Objet',
             className: 'jsoneditor-type-object',
             title: titles.object,
             click: function () {
-              node._onAppend('', {});
+                node._onInsertBefore('', {});
             }
-          },
-          {
+        },
+        {
             text: 'Caractères',
             className: 'jsoneditor-type-string',
             title: titles.string,
             click: function () {
-              node._onAppend('', '', 'string');
+                node._onInsertBefore('', '', 'string');
             }
-          }
-        ]
-      });
-    }
-
-    // create insert button
+        }
+    ];
+    node.addTemplates(insertSubmenu, false);
     items.push({
       text: 'Ajouter',
       title: 'Ajouter un nouveau champ de type \'auto\' avant ce champ (Ctrl+Ins)',
@@ -3328,40 +3391,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
       click: function () {
         node._onInsertBefore('', '', 'auto');
       },
-      submenu: [
-        {
-          text: 'Auto',
-          className: 'jsoneditor-type-auto',
-          title: titles.auto,
-          click: function () {
-            node._onInsertBefore('', '', 'auto');
-          }
-        },
-        {
-          text: 'Tableau',
-          className: 'jsoneditor-type-array',
-          title: titles.array,
-          click: function () {
-            node._onInsertBefore('', []);
-          }
-        },
-        {
-          text: 'Objet',
-          className: 'jsoneditor-type-object',
-          title: titles.object,
-          click: function () {
-            node._onInsertBefore('', {});
-          }
-        },
-        {
-          text: 'Caractères',
-          className: 'jsoneditor-type-string',
-          title: titles.string,
-          click: function () {
-            node._onInsertBefore('', '', 'string');
-          }
-        }
-      ]
+      submenu: insertSubmenu
     });
 
     if (this.editable.field) {

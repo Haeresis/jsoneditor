@@ -90,7 +90,11 @@ function ContextMenu (items, options) {
           var divIcon = document.createElement('div');
           divIcon.className = 'jsoneditor-icon';
           button.appendChild(divIcon);
-          button.appendChild(document.createTextNode(item.text));
+          var divText = document.createElement('div');
+          divText.className = 'jsoneditor-text' +
+              (item.click ? '' : ' jsoneditor-right-margin');
+          divText.appendChild(document.createTextNode(item.text));
+          button.appendChild(divText);
 
           var buttonSubmenu;
           if (item.click) {
@@ -137,7 +141,8 @@ function ContextMenu (items, options) {
         }
         else {
           // no submenu, just a button with clickhandler
-          button.innerHTML = '<div class="jsoneditor-icon"></div>' + item.text;
+          button.innerHTML = '<div class="jsoneditor-icon"></div>' +
+              '<div class="jsoneditor-text">' + item.text + '</div>';
         }
 
         domItems.push(domItem);
@@ -321,7 +326,11 @@ ContextMenu.prototype._onExpandItem = function (domItem) {
     var height = ul.clientHeight; // force a reflow in Firefox
     setTimeout(function () {
       if (me.expandedItem == domItem) {
-        ul.style.height = (ul.childNodes.length * 24) + 'px';
+        var childsHeight = 0;
+        for (var i = 0; i < ul.childNodes.length; i++) {
+          childsHeight += ul.childNodes[i].clientHeight;
+        }
+        ul.style.height = childsHeight + 'px';
         ul.style.padding = '5px 10px';
       }
     }, 0);
