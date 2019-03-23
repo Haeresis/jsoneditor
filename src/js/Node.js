@@ -938,7 +938,7 @@ Node.prototype._move = function(node, beforeNode) {
 
   // check if this node is not a child of the node to be moved here
   if (node.containsNode(this)) {
-    throw new Error('Cannot move a field into a child of itself');
+    throw new Error('Impossible de bouger ce champ dans un de ses enfants');
   }
 
   // remove the original node
@@ -3336,7 +3336,7 @@ Node.prototype.showContextMenu = function (anchor, onClose) {
         ];
         node.addTemplates(appendSubmenu, true);
         items.push({
-            text: 'Postjouter',
+            text: 'Rajouter',
             title: 'Ajouter un nouveau champ de type \'auto\' après ce champ (Ctrl+Shift+Ins)',
             submenuTitle: 'Sélectionner le type du champ à ajouter',
             className: 'jsoneditor-append',
